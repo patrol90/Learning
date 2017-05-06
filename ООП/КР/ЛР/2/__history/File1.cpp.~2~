@@ -1,0 +1,58 @@
+ #pragma hdrstop
+#pragma argsused
+
+#ifdef _WIN32
+#include <tchar.h>
+#else
+  typedef char _TCHAR;
+  #define _tmain main
+#endif
+
+#include <stdio.h>
+
+class Node
+{
+	private:
+	char name[10];	//имя узла
+	Node * left;		//левая ветвь
+	Node * right;	//правая ветвь
+	public:
+		Init(Node *&MyTree){
+			MyTree=new Node;
+			MyTree->left=NULL;
+			MyTree->right=NULL;
+		};
+		AddNode(char text[10],Node *&MyTree){
+			if (NULL==MyTree)
+			{
+				MyTree=new Node; //Выделяем память под звено дерева
+				strcpy (MyTree->name, text);
+				MyTree->left=MyTree->right=NULL; //Подзвенья инициализируем пустотой во избежание ошибок
+			}
+
+				   if (MyTree->left=NULL)
+					  {
+
+							  MyTree->left=new Node;  //Выделяем память левому подзвену. Именно подзвену, а не просто звену
+							  MyTree->left->left=MyTree->left->right=NULL;
+							  MyTree->left->right=MyTree->left->right=NULL;
+							  strcpy(MyTree->left->name,text);
+
+					  }
+
+					if (MyTree->right=NULL)  {
+
+								MyTree->right=new Node;  //Выделяем память левому подзвену. Именно подзвену, а не просто звену
+								MyTree->right->left=MyTree->left->right=NULL;
+								MyTree->right->right=MyTree->left->right=NULL;
+								strcpy(MyTree->right->name,text);
+					  }
+
+		};
+		DelTree();
+		Print();
+};
+ int _tmain(int argc, _TCHAR* argv[])
+{
+	return 0;
+}

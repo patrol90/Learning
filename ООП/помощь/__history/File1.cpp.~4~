@@ -1,0 +1,61 @@
+#pragma hdrstop
+#pragma argsused
+
+#ifdef _WIN32
+#include <tchar.h>
+#else
+  typedef char _TCHAR;
+  #define _tmain main
+#endif
+
+#include <stdio.h>
+#include <iostream>
+
+
+using namespace std;
+
+		bool  check(char *str){
+			int counter_0=0, counter_1=0;
+
+			for (int i = 0; i < strlen(str); i++)
+			{
+					 if(str[i]=='1'){
+						counter_1++;
+					 }else {
+						 counter_0++;
+					 }
+
+
+			}
+
+				if(counter_1>counter_0){
+
+					return true;
+
+				}            else{
+
+					return false;
+				}
+
+
+
+
+		}
+
+ int _tmain(int argc, _TCHAR* argv[])
+{
+
+	char stroka[256];
+	cout << "Vvedite stroky iz  0 i 1";
+	cin.getline(stroka,255);
+
+
+	if(check(stroka)){
+	 cout << "bolwe edenic";
+	}else {
+		cout << "bolwe 0";
+	};
+
+	cin.get();
+	return 0;
+}

@@ -1,0 +1,61 @@
+#pragma hdrstop
+#pragma argsused
+
+#ifdef _WIN32
+#include <tchar.h>
+#else
+  typedef char _TCHAR;
+  #define _tmain main
+#endif
+
+#include <stdio.h>
+#include <iostream>
+
+
+using namespace std;
+
+		bool  check(char *str){      //  создаем функцию проверки, если больше единиц то отдает 1, если нулей то 0
+			int counter_0=0, counter_1=0;       // создаем счетчики   для 0 и 1
+
+			for (int i = 0; i < strlen(str); i++) // счетчик   сравнивает каждую цифру с 1 если, 1 то прибавляет значение счетчика
+			{
+					 if(str[i]=='1'){
+						counter_1++;
+					 }else {
+						 counter_0++;         // если 0 то +1 к счетчику нулей
+					 }
+
+
+			}
+
+				if(counter_1>counter_0){            // сравниваем результаты после окончания цикла, если больще 1 то возравщает true, если нет то  false
+
+					return true;
+
+				}            else{
+
+					return false;
+				}
+
+
+
+
+		}
+
+ int _tmain(int argc, _TCHAR* argv[])
+{
+
+	char stroka[256];                               //строка которую вводим
+	cout << "Vvedite stroky iz  0 i 1\n";
+	cin.getline(stroka,255);                        //записываем введеную строку в переменную stroka
+
+
+	if(check(stroka)){                              // если вернуло функция вернула true то: выводит что больше едениц, иначе больше нулей
+	 cout << "bolwe edenic";
+	}else {
+		cout << "bolwe 0";
+	};
+
+	cin.get();
+	return 0;
+}

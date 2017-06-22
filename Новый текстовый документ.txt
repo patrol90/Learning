@@ -1,0 +1,65 @@
+
+use Bitrix\Main,
+    Bitrix\Main\Loader,
+    Bitrix\Main\ModuleManager,
+    Bitrix\Main\Config\Option,
+    Bitrix\Main\Localization\Loc,
+    Bitrix\Iblock,
+    Bitrix\Catalog,
+    Bitrix\Sale\DiscountCouponsManager,
+    Bitrix\Sale\Discount\Context,
+    Bitrix\Sale\Order,
+    Bitrix\Sale;
+CModule::IncludeModule('sale');
+
+$products = array(
+    array('PRODUCT_ID' => 1811, 'NAME' => 'Товар 1', 'PRICE' => 500, 'CURRENCY' => 'RUB', 'QUANTITY' => 5)
+);
+
+$basket = Bitrix\Sale\Basket::create(SITE_ID);
+
+
+foreach ($products as $product)
+{
+    $item = $basket->createItem("catalog", $product["PRODUCT_ID"]);
+    unset($product["PRODUCT_ID"]);
+    $item->setFields($product);
+};
+/*echo '<pre>';
+var_dump(Bitrix\Sale\Order::create(SITE_ID, 75));
+echo  '</pre>';*/
+
+$order = Bitrix\Sale\Order::create(SITE_ID, 75);
+
+$order->setPersonTypeId(1);
+$order->setBasket($basket);
+
+$shipmentCollection = $order->getShipmentCollection();
+$shipment = $shipmentCollection->createItem(
+    Bitrix\Sale\Delivery\Services\Manager::getObjectById(2)
+);
+
+$shipmentItemCollection = $shipment->getShipmentItemCollection();
+
+foreach ($basket as $basketItem)
+{
+    $item = $shipmentItemCollection->createItem($basketItem);
+    $item->setQuantity($basketItem->getQuantity());
+}
+$paymentCollection = $order->getPaymentCollection();
+$payment = $paymentCollection->createItem(
+    Bitrix\Sale\PaySystem\Manager::getObjectById(1)
+);
+
+$payment->setField("SUM", $order->getPrice());
+$payment->setField("CURRENCY", $order->getCurrency());
+
+
+$result = $order->save();
+
+if (!$result->isSuccess())
+{
+    $result->getErrors();
+} else {
+    echo "Добавлен";
+}
